@@ -16,8 +16,12 @@ jobs:
           with:
             role-to-assume: arn:aws:iam::479725013684:role/github-actions-role
             aws-region: ${{env.AWS_DEFAULT_REGION}}
+            web-identity-token-file: /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+        
 
         - name: Copy files and deploy to S3 bucket
           run: aws s3 sync . ${{ secrets.AWS_S3_BUCKET }} --exclude ".git/*" --exclude ".github/*" --exclude "LICENSE" --exclude "README.md" --exclude "node_modules"
 
-
+        - name: Copy files to the production website with the AWS CLI
+          run: |
+            aws s3 sync . s3://aliceresumebucket
