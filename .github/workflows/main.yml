@@ -21,9 +21,6 @@ jobs:
           
         
 
-        - name: Copy files and deploy to S3 bucket
-          run: aws s3 sync . ${{ secrets.AWS_S3_BUCKET }} --exclude ".git/*" --exclude ".github/*" --exclude "LICENSE" --exclude "README.md" --exclude "node_modules"
-
         - name: Copy files to the production website with the AWS CLI
           run: |
             aws s3 sync . s3://aliceresumebucket
