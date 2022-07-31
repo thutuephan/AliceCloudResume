@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "alice-resume-cloud2"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-1sg3zygwdxaak"
+s3_prefix = "alice-resume-cloud2"
+region = "us-east-1"
+capabilities = "CAPABILITY_IAM"
+image_repositories = []
