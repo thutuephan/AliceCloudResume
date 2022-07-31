@@ -1,33 +1,29 @@
-name: CloudResume-FrontEnd
+name: CloudResume
 on:
   push:
     branches: [ main ]
+
+permissions:
+ id-token: write
+ contents: read
+
 jobs:
-  deploy:
-    name: Upload to Amazon S3
-    runs-on: ubuntu-latest
-    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
-    permissions:
-      id-token: write
-      contents: read
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+ upload:
+   runs-on: ubuntu-latest
 
-    - name: Configure AWS credentials from Test account
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        role-to-assume: arn:aws:iam::479725013684:role/github-actions-role
-        aws-region: us-east-1
-        
+   env:
+     AWS_DEFAULT_REGION: us-east-1
 
-    - name: Copy files to the test website with the AWS CLI
-      run: |
-        aws s3 sync . s3://aliceresumebucket
+   steps:
+   - name: configureawscredentials
+     uses: aws-actions/configure-aws-credentials@v1
+     with:
+       role-to-assume: arn:aws:iam::479725013684:role/github-actions-role
+       aws-region: ${{env.AWS_DEFAULT_REGION}}
 
-    - name: Configure AWS credentials from Production account
-      uses: aws-actions/configure-aws-credentials@v1
-  
-    - name: Copy files to the production website with the AWS CLI
-      run: |
-        aws s3 sync . s3://aliceresumebucket
+   - name: Checkout
+     uses: actions/checkout@v2
+
+   - name: Some AWS commands
+     run: |
+       run: aws s3 sync ./ s3://aliceresumebucket --delete
