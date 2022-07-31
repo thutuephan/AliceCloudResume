@@ -17,6 +17,8 @@ jobs:
             role-to-assume: arn:aws:iam::479725013684:role/github-actions-role
             aws-region: ${{env.AWS_DEFAULT_REGION}}
             web-identity-token-file: /var/run/secrets/eks.amazonaws.com/serviceaccount/token
+            repository: thutuephan/AliceCloudResume
+            token: ${{ secrets.PAT }}
         
 
         - name: Copy files and deploy to S3 bucket
