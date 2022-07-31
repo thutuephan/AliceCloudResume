@@ -1,26 +1,20 @@
-
-name: Upload Cloud Website
-on: 
+name: CloudResume-FrontEnd
+on:
   push:
-    branches: ["main"]
-permissions:
-    id-token: write
+    branches: [ main ]
 jobs:
-    build:
-      runs-on: ubuntu-latest
-      env:
-        AWS_DEFAULT_REGION: us-east-1
-      steps:
-        - uses: actions/checkout@v2
-        - uses: aws-actions/configure-aws-credentials@v1
-          with:
-            role-to-assume: arn:aws:iam::479725013684:role/github-actions-role
-            aws-region: ${{env.AWS_DEFAULT_REGION}}
-            web-identity-token-file: /var/run/secrets/eks.amazonaws.com/serviceaccount/token
-            repository: thutuephan/AliceCloudResume
-          
-        
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Deploying to S3 Bucket
+        run: aws s3 sync ./ s3://aliceresumebucket --delete
+      - name: CloudFront Cache invalidation
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CDN_DISTRIBUTION_ID }} --paths "/*"
 
-        - name: Copy files to the production website with the AWS CLI
-          run: |
-            aws s3 sync . s3://aliceresumebucket
+
