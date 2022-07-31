@@ -3,16 +3,21 @@ name: Upload Cloud Website
 on: 
   push:
     branches: ["main"]
+permissions:
+    id-token: write
+    contents: read# This is required for actions/checkout@v2
 jobs:
     build:
       runs-on: ubuntu-latest
+      env:
+        AWS_DEFAULT_REGION: us-east-1
       steps:
         - uses: actions/checkout@v2
         - uses: aws-actions/configure-aws-credentials@v1
           with:
-            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            aws-region: us-east-1
+            role-to-assume: arn:aws:iam::479725013684:role/github-actions-role
+            aws-region: ${{env.AWS_DEFAULT_REGION}}
+
         - name: Copy files and deploy to S3 bucket
           run: aws s3 sync . ${{ secrets.AWS_S3_BUCKET }} --exclude ".git/*" --exclude ".github/*" --exclude "LICENSE" --exclude "README.md" --exclude "node_modules"
 
