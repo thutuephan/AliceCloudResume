@@ -18,5 +18,4 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: us-east-1
         
-    - name: Copy files and deploy to S3 bucket
-      run: aws s3 sync . ${{ secrets.AWS_S3_BUCKET }} 
+    
