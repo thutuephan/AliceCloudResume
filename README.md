@@ -6,7 +6,7 @@
 
 - [Website](https://alicezenmind.com/)
 - [Website's-Workflows-Diagram](#websites-workflows-diagram)
-- [Description](#)
+- [Description](#description)
 - [Future Development](#future-development)
 - [Resources](#resources)
 - [License](#license)
@@ -25,49 +25,44 @@
 > The Lambda function then work with the DynamoDB database, thus the data updated and stored in DynamoDB will be retrieved and sent back to the user. 
 
 
-### I. Front-end
+### 1. HTML & CSS
 
-1. Prepare the HTML resume styled with CSS, deployed as an Amazon S3 static website.
+Prepare the HTML resume styled with CSS, deployed as an Amazon S3 static website.
 
-2. HTTPS
+### 2. HTTPS
 
 The S3 website URL should use HTTPS for security. Amazon CloudFront helps with this.
 
-3. DNS 
+### 3. DNS 
 
 - Purchase a domain name via Amazon Route 53
 - Point the custom DNS domain name to the CloudFront distribution so the resume can be accessed at the domain name and also at the alternative DN.
 
-4. Database
+### 4. Database
 
 Use Amazon's DynamoDB for this
 
-5. API
+### 5. API
 
 Create an API that accepts requests from the web app and communicates with the database. AWS's API Gateway and Lambda services are good for this.
 
-6. Python
+### 6. Python
 
 Write a bit of code in the Lambda function, use Python's boto3 library for AWS.
 
-7. Test
+### 7. Test
 
 Use Cypress for testing
 
-8. Infrastructure as Code
+### 8. Infrastructure as Code
 
 Define the API Gateway and the Lambda function in an AWS Serverless Application Model (SAM) template and deploy them using AWS SAM CLI. This is called `infrastructure as code` or IaC.
 
-9. Source Control: Github
+### 9. Source Control: Github
 
-10. CI/CD for Back-end and Front-end
+### 10. CI/CD for Back-end and Front-end
 
 Set up Github Actions such that when I push an update / make a change to the code from my laptop, the website is automatically updated.
-
-
-
-
-
 
 ## Future Development
 
